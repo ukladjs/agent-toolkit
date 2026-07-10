@@ -1,0 +1,38 @@
+{
+  "name": "reflex-agent-toolkit",
+  "version": "0.1.0",
+  "description": "Context-efficient Reflex workflows, skills, and devtools MCP integration for Codex.",
+  "author": {
+    "name": "flexsurfer",
+    "url": "https://github.com/flexsurfer"
+  },
+  "homepage": "https://github.com/flexsurfer/reflex",
+  "repository": "https://github.com/flexsurfer/reflex",
+  "license": "MIT",
+  "keywords": [
+    "reflex",
+    "react",
+    "state-management",
+    "mcp",
+    "agentic-development"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Reflex Agent Toolkit",
+    "shortDescription": "Build and migrate apps to Reflex with low-context agent workflows.",
+    "longDescription": "Adds Reflex skills and devtools MCP setup so Codex can inspect handlers, scoped app state, traces, and dispatch results instead of reading broad source files.",
+    "developerName": "flexsurfer",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/flexsurfer/reflex",
+    "defaultPrompt": [
+      "Create a React app using Reflex.",
+      "Migrate this app state to Reflex.",
+      "Debug this Reflex event flow."
+    ]
+  }
+}

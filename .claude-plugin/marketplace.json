@@ -1,0 +1,27 @@
+{
+  "name": "reflex-agent-toolkit",
+  "owner": {
+    "name": "flexsurfer"
+  },
+  "description": "Reflex plugins for context-efficient agentic development.",
+  "plugins": [
+    {
+      "name": "reflex-agent-toolkit",
+      "source": "./plugins/reflex-agent-toolkit",
+      "displayName": "Reflex Agent Toolkit",
+      "description": "Adds Reflex skills and devtools MCP integration for building, migrating, debugging, and verifying Reflex apps.",
+      "version": "0.1.0",
+      "author": {
+        "name": "flexsurfer"
+      },
+      "category": "developer-tools",
+      "tags": [
+        "reflex",
+        "react",
+        "state-management",
+        "mcp",
+        "agentic-development"
+      ]
+    }
+  ]
+}

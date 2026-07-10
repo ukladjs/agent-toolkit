@@ -1,0 +1,20 @@
+{
+  "name": "reflex-agent-toolkit",
+  "interface": {
+    "displayName": "Reflex Agent Toolkit"
+  },
+  "plugins": [
+    {
+      "name": "reflex-agent-toolkit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/reflex-agent-toolkit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
