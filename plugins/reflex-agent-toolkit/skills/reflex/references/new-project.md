@@ -20,13 +20,16 @@ Adapt the commands to the detected package manager.
 Create a compact Reflex layer before UI complexity:
 
 - `src/state/db.ts`: `AppDb` shape and initial value.
-- `src/state/ids.ts`: event, sub, and effect IDs.
+- `src/state/event-ids.ts`: event IDs and dispatch signatures.
+- `src/state/effect-ids.ts`: effect IDs and payload signatures.
+- `src/state/sub-ids.ts`: subscription IDs and result signatures.
+- `src/state/payload-maps.d.ts`: `AppDb` and typed payload maps.
 - `src/state/events.ts`: pure events.
 - `src/state/subs.ts`: view-ready subscriptions.
 - `src/state/effects.ts`: I/O effects when needed.
 - `src/state/index.ts`: state initialization exports.
 
-Initialize app-db once near the app entry point. Enable tracing/devtools only in development:
+Initialize app-db once near the app entry point. Import the state registration entry before the first dispatch. Enable tracing/devtools only in development:
 
 ```ts
 import { enableTracing } from '@flexsurfer/reflex'

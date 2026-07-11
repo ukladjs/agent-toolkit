@@ -11,19 +11,23 @@ npm install @flexsurfer/reflex
 npm install -D @flexsurfer/reflex-devtools
 ```
 
-The MCP bridge is started by the host plugin through:
+Add a project-local server script. It uses the DevTools package already installed above, so no absolute `node_modules` path is needed:
 
-```bash
-npx -y @flexsurfer/reflex-devtools-mcp
+```json
+{
+  "scripts": {
+    "devtools:mcp": "reflex-devtools --mcp --host 127.0.0.1 --port 4000"
+  }
+}
 ```
 
-The application-side DevTools server must run while the app is open:
+The plugin starts the version-pinned MCP bridge automatically through `npx`; do not add the MCP bridge package or a client configuration to the project. The application-side DevTools server must run while the app is open:
 
 ```bash
-npx reflex-devtools --mcp
+npm run devtools:mcp
 ```
 
-If MCP tools are present but report no connected Reflex app, start this command from the project root, keep the process running, reload the app if needed, and retry `get_handlers` or the narrowest relevant MCP call.
+Use the detected package manager's equivalent command when the project does not use npm. If MCP tools are present but report no connected Reflex app, start this script from the project root, keep the process running, reload the app if needed, and retry `get_handlers` or the narrowest relevant MCP call.
 
 ## Runtime Hook
 
@@ -41,12 +45,16 @@ if (import.meta.env.DEV) {
 
 Adjust the environment guard for non-Vite apps.
 
+## Browserless Verification
+
+For a repeated autonomous loop without a browser, prefer an existing project `dev:headless` script or `src/headless.ts` entry. It must load the same db/events/subs registrations as the app, use Node-safe effect/coeffect adapters, and enable tracing/devtools. Headless DevTools requires Node.js 22+; use it for state-layer verification and keep a browser/DOM smoke test for visual wiring.
+
 ## If MCP Is Not Available
 
 If the MCP bridge is configured but the app-side server is not running, start:
 
 ```bash
-npx reflex-devtools --mcp
+npm run devtools:mcp
 ```
 
 Then reload the app and retry the MCP call.

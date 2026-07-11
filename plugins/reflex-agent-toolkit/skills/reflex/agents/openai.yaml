@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reflex"
+  short_description: "Build and verify Reflex apps efficiently."
+  default_prompt: "Use $reflex to build and verify this Reflex feature."

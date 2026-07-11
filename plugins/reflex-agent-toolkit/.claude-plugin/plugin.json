@@ -7,8 +7,8 @@
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"
   },
-  "homepage": "https://github.com/flexsurfer/reflex",
-  "repository": "https://github.com/flexsurfer/reflex",
+  "homepage": "https://github.com/flexsurfer/reflex-agent-toolkit",
+  "repository": "https://github.com/flexsurfer/reflex-agent-toolkit",
   "license": "MIT",
   "keywords": [
     "reflex",

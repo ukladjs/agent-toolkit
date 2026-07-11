@@ -3,8 +3,13 @@
     "reflex-devtools": {
       "command": "npx",
       "args": [
-        "-y",
-        "@flexsurfer/reflex-devtools-mcp"
+        "--yes",
+        "--package=@flexsurfer/reflex-devtools-mcp@0.1.12",
+        "reflex-devtools-mcp",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "4000"
       ]
     }
   }

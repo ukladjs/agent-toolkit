@@ -6,8 +6,8 @@
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"
   },
-  "homepage": "https://github.com/flexsurfer/reflex",
-  "repository": "https://github.com/flexsurfer/reflex",
+  "homepage": "https://github.com/flexsurfer/reflex-agent-toolkit",
+  "repository": "https://github.com/flexsurfer/reflex-agent-toolkit",
   "license": "MIT",
   "keywords": [
     "reflex",
@@ -28,10 +28,10 @@
       "Interactive",
       "Write"
     ],
-    "websiteURL": "https://github.com/flexsurfer/reflex",
+    "websiteURL": "https://github.com/flexsurfer/reflex-agent-toolkit",
     "defaultPrompt": [
-      "Create a React app using Reflex.",
-      "Migrate this app state to Reflex.",
+      "Create a React/Vite site using Reflex (@flexsurfer/reflex).",
+      "Migrate this app's state management to Reflex (@flexsurfer/reflex).",
       "Debug this Reflex event flow."
     ]
   }

@@ -1,6 +1,6 @@
 # Reflex Agent Toolkit
 
-Standalone marketplace repository for the Reflex agent plugin. While this folder still lives inside the Reflex library repo, it is already structured so it can be copied to its own repository without changing paths.
+Standalone marketplace repository for the Reflex agent plugin. It contains the distributable skill and MCP configuration; the Reflex runtime library remains in its own repository.
 
 ## What It Contains
 
@@ -8,7 +8,8 @@ Standalone marketplace repository for the Reflex agent plugin. While this folder
 - `plugins/reflex-agent-toolkit/.claude-plugin/plugin.json`: Claude Code plugin manifest.
 - `plugins/reflex-agent-toolkit/.mcp.json`: shared Reflex DevTools MCP server config.
 - `plugins/reflex-agent-toolkit/skills/reflex/SKILL.md`: compact Reflex workflow skill.
-- `plugins/reflex-agent-toolkit/skills/reflex/references/`: progressive-disclosure workflows for new projects, migrations, setup, and verification.
+- `plugins/reflex-agent-toolkit/skills/reflex/agents/openai.yaml`: Codex skill UI metadata.
+- `plugins/reflex-agent-toolkit/skills/reflex/references/`: progressive-disclosure implementation, project, migration, setup, and verification workflows.
 - `.agents/plugins/marketplace.json`: Codex local marketplace catalog.
 - `.claude-plugin/marketplace.json`: Claude Code local marketplace catalog.
 
@@ -18,22 +19,17 @@ From this repository root:
 
 ```bash
 codex plugin marketplace add .
-codex plugin add reflex-agent-toolkit@reflex-agent-toolkit
 ```
 
-From the parent `reflex` repository before this folder is split out:
+Then inside Codex, run `/plugins` and install "Reflex Agent Toolkit" from the browser.
 
-```bash
-codex plugin marketplace add ./reflex-agent-toolkit
-codex plugin add reflex-agent-toolkit@reflex-agent-toolkit
-```
-
-After publishing this folder as `flexsurfer/reflex-agent-toolkit`:
+After publishing as `flexsurfer/reflex-agent-toolkit`:
 
 ```bash
 codex plugin marketplace add flexsurfer/reflex-agent-toolkit
-codex plugin add reflex-agent-toolkit@reflex-agent-toolkit
 ```
+
+Then `/plugins` → install "Reflex Agent Toolkit".
 
 ## Local Claude Code Install
 
@@ -45,15 +41,7 @@ From Claude Code, add the local marketplace and install the plugin:
 /reload-plugins
 ```
 
-From the parent `reflex` repository before this folder is split out:
-
-```text
-/plugin marketplace add ./reflex-agent-toolkit
-/plugin install reflex-agent-toolkit@reflex-agent-toolkit
-/reload-plugins
-```
-
-After publishing this folder as `flexsurfer/reflex-agent-toolkit`:
+After publishing as `flexsurfer/reflex-agent-toolkit`:
 
 ```text
 /plugin marketplace add flexsurfer/reflex-agent-toolkit
@@ -72,26 +60,36 @@ claude --plugin-dir ./plugins/reflex-agent-toolkit
 New project:
 
 ```text
-Create a React/Vite site using Reflex.
+Create a React/Vite site using Reflex (@flexsurfer/reflex).
 ```
 
 Existing project:
 
 ```text
-Migrate this app's state management to Reflex.
+Migrate this app's state management to Reflex (@flexsurfer/reflex).
 ```
 
 The plugin should steer the agent toward the Reflex skill, small source reads, MCP/index tools, and `dispatch_event` verification when DevTools is connected.
 
 ## Runtime Requirement
 
-The plugin configures the MCP client side. For live app verification, the project still needs Reflex DevTools running with MCP enabled:
+The plugin starts a version-pinned MCP bridge through `npx` for each Codex or Claude Code session. It is independent of the active project's `node_modules`, so one plugin installation works across projects.
 
-```bash
-npx reflex-devtools --mcp
+For live app verification, each project still needs its own DevTools server. The setup skill adds this script when it is missing:
+
+```json
+{
+  "scripts": {
+    "devtools:mcp": "reflex-devtools --mcp --host 127.0.0.1 --port 4000"
+  }
+}
 ```
 
-The Reflex skill tells the agent to start this command from the project root when MCP tools are present but report no connected Reflex app. Codex/Claude may ask for approval because this is a long-running local process.
+```bash
+npm run devtools:mcp
+```
+
+The Reflex skill tells the agent to start this script from the project root when MCP tools are present but report no connected Reflex app. Codex/Claude may ask for approval because this is a long-running local process.
 
 ## Validate
 
