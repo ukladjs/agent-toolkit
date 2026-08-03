@@ -1,6 +1,6 @@
-# Canonical Reflex Application Architecture
+# Canonical Uklad Application Architecture
 
-Read this for application-authored Reflex code. Do not impose it on the implementation of the `@flexsurfer/reflex` package itself.
+Read this for application-authored Uklad code. Do not impose it on the implementation of the `@ukladjs/core` package itself.
 
 ## Bounded Discovery
 
@@ -16,7 +16,7 @@ Read `catalog.ts` for names, `contracts.ts` for shapes, and only then the file t
 
 ```text
 src/
-  app/reflex/{catalog,contracts,initial-state,runtime,bindings,register}.ts
+  app/uklad/{catalog,contracts,initial-state,runtime,bindings,register}.ts
   features/<feature>/{state,events,subscriptions,module}.ts
   features/<feature>/ui/
   platform/<web|native|headless|test>/{effects,coeffects}.ts
@@ -52,7 +52,7 @@ export const appIds = {
 - Keep runtime-owned `dispatch` and `dispatch-later` outside `appIds`.
 
 ```ts
-export interface AppContracts extends ReflexContracts {
+export interface AppContracts extends UkladContracts {
   state: { [stateKeys.todosById]: Record<TodoId, Todo> };
   events: { [appIds.events.todosAdd]: [title: string] };
   subscriptions: {

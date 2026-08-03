@@ -1,14 +1,14 @@
 {
-  "name": "reflex-agent-toolkit",
+  "name": "ukladjs",
   "interface": {
-    "displayName": "Reflex Agent Toolkit"
+    "displayName": "Uklad Agent Toolkit"
   },
   "plugins": [
     {
-      "name": "reflex-agent-toolkit",
+      "name": "uklad-agent-toolkit",
       "source": {
         "source": "local",
-        "path": "./plugins/reflex-agent-toolkit"
+        "path": "./plugins/uklad-agent-toolkit"
       },
       "policy": {
         "installation": "AVAILABLE",

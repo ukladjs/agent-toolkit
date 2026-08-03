@@ -1,4 +1,4 @@
-# Reflex Setup And DevTools
+# Uklad Setup And DevTools
 
 Read this only when runtime packages, framework bindings, DevTools, MCP connectivity, or a headless entry are missing.
 
@@ -7,8 +7,8 @@ Read this only when runtime packages, framework bindings, DevTools, MCP connecti
 Use the detected package manager:
 
 ```bash
-npm install @flexsurfer/reflex
-npm install -D @flexsurfer/reflex-devtools
+npm install @ukladjs/core
+npm install -D @ukladjs/devtools
 ```
 
 The plugin starts its version-pinned MCP bridge. Do not add the bridge package or a separate MCP client configuration to the application.
@@ -18,11 +18,11 @@ The plugin starts its version-pinned MCP bridge. Do not add the bridge package o
 Connect each development runtime explicitly:
 
 ```ts
-import { createReflexInspector } from '@flexsurfer/reflex/devtools';
-import { enableDevtools } from '@flexsurfer/reflex-devtools';
+import { createUkladInspector } from '@ukladjs/core/devtools';
+import { enableDevtools } from '@ukladjs/devtools';
 
 if (import.meta.env.DEV) {
-  enableDevtools(createReflexInspector(appRuntime));
+  enableDevtools(createUkladInspector(appRuntime));
 }
 ```
 
@@ -35,7 +35,7 @@ Add a read-only inspection script using the browser app's exact development orig
 ```json
 {
   "scripts": {
-    "devtools:mcp": "reflex-devtools --mcp --host 127.0.0.1 --port 4000 --allow-origin http://localhost:5173"
+    "devtools:mcp": "uklad-devtools --mcp --host 127.0.0.1 --port 4000 --allow-origin http://localhost:5173"
   }
 }
 ```
@@ -54,7 +54,7 @@ Use an existing headless entry when available. Otherwise create `src/headless.ts
 - create its own runtime with a stable `runtimeId`;
 - install the same feature modules as the app;
 - install headless effect/coeffect adapters instead of browser adapters;
-- connect `createReflexInspector(runtime)`; and
+- connect `createUkladInspector(runtime)`; and
 - run it under a watcher such as `tsx watch` or `vite-node --watch`.
 
 Headless DevTools requires Node.js 22 or newer. Keep a browser or native smoke test for visual wiring.

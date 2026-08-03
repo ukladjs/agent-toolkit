@@ -3,9 +3,9 @@ import path from 'node:path'
 import process from 'node:process'
 
 const root = process.cwd()
-const pluginRoot = path.join(root, 'plugins', 'reflex-agent-toolkit')
-const skillRoot = path.join(pluginRoot, 'skills', 'reflex')
-const mcpBridgePackage = '--package=@flexsurfer/reflex-devtools-mcp@0.1.12'
+const pluginRoot = path.join(root, 'plugins', 'uklad-agent-toolkit')
+const skillRoot = path.join(pluginRoot, 'skills', 'uklad')
+const mcpBridgePackage = '--package=@ukladjs/devtools-mcp@0.1.13'
 const referenceFiles = [
   'architecture.md',
   'events-effects.md',
@@ -18,12 +18,12 @@ const referenceFiles = [
 const requiredFiles = [
   '.agents/plugins/marketplace.json',
   '.claude-plugin/marketplace.json',
-  'plugins/reflex-agent-toolkit/.codex-plugin/plugin.json',
-  'plugins/reflex-agent-toolkit/.claude-plugin/plugin.json',
-  'plugins/reflex-agent-toolkit/.mcp.json',
-  'plugins/reflex-agent-toolkit/skills/reflex/SKILL.md',
-  'plugins/reflex-agent-toolkit/skills/reflex/agents/openai.yaml',
-  ...referenceFiles.map((file) => `plugins/reflex-agent-toolkit/skills/reflex/references/${file}`)
+  'plugins/uklad-agent-toolkit/.codex-plugin/plugin.json',
+  'plugins/uklad-agent-toolkit/.claude-plugin/plugin.json',
+  'plugins/uklad-agent-toolkit/.mcp.json',
+  'plugins/uklad-agent-toolkit/skills/uklad/SKILL.md',
+  'plugins/uklad-agent-toolkit/skills/uklad/agents/openai.yaml',
+  ...referenceFiles.map((file) => `plugins/uklad-agent-toolkit/skills/uklad/references/${file}`)
 ]
 
 function readJson(relativePath) {
@@ -57,40 +57,40 @@ assert(
   'Skill references must contain only the routed progressive-disclosure files'
 )
 
-const codexManifest = readJson('plugins/reflex-agent-toolkit/.codex-plugin/plugin.json')
-assert(codexManifest.name === 'reflex-agent-toolkit', 'Codex manifest name mismatch')
+const codexManifest = readJson('plugins/uklad-agent-toolkit/.codex-plugin/plugin.json')
+assert(codexManifest.name === 'uklad-agent-toolkit', 'Codex manifest name mismatch')
 assert(codexManifest.skills === './skills/', 'Codex manifest must expose ./skills/')
 assert(codexManifest.mcpServers === './.mcp.json', 'Codex manifest must point at ./.mcp.json')
-assert(codexManifest.repository === 'https://github.com/flexsurfer/reflex-agent-toolkit', 'Codex manifest repository mismatch')
+assert(codexManifest.repository === 'https://github.com/ukladjs/agent-toolkit', 'Codex manifest repository mismatch')
 
-const claudeManifest = readJson('plugins/reflex-agent-toolkit/.claude-plugin/plugin.json')
-assert(claudeManifest.name === 'reflex-agent-toolkit', 'Claude manifest name mismatch')
+const claudeManifest = readJson('plugins/uklad-agent-toolkit/.claude-plugin/plugin.json')
+assert(claudeManifest.name === 'uklad-agent-toolkit', 'Claude manifest name mismatch')
 assert(claudeManifest.skills === './skills/', 'Claude manifest must expose ./skills/')
 assert(claudeManifest.mcpServers === './.mcp.json', 'Claude manifest must point at ./.mcp.json')
-assert(claudeManifest.repository === 'https://github.com/flexsurfer/reflex-agent-toolkit', 'Claude manifest repository mismatch')
+assert(claudeManifest.repository === 'https://github.com/ukladjs/agent-toolkit', 'Claude manifest repository mismatch')
 
-const mcpConfig = readJson('plugins/reflex-agent-toolkit/.mcp.json')
-const mcpServer = mcpConfig.mcpServers?.['reflex-devtools']
+const mcpConfig = readJson('plugins/uklad-agent-toolkit/.mcp.json')
+const mcpServer = mcpConfig.mcpServers?.['uklad-devtools']
 assert(mcpServer?.command === 'npx', 'MCP server must start with npx')
 assert(
   Array.isArray(mcpServer.args) && mcpServer.args.includes(mcpBridgePackage),
   `MCP server args must pin published ${mcpBridgePackage}`
 )
-assert(mcpServer.args.includes('reflex-devtools-mcp'), 'MCP server args must run the Reflex DevTools MCP binary')
+assert(mcpServer.args.includes('uklad-devtools-mcp'), 'MCP server args must run the Uklad DevTools MCP binary')
 
 const codexMarketplace = readJson('.agents/plugins/marketplace.json')
-const codexEntry = codexMarketplace.plugins?.find((plugin) => plugin.name === 'reflex-agent-toolkit')
+const codexEntry = codexMarketplace.plugins?.find((plugin) => plugin.name === 'uklad-agent-toolkit')
 assert(codexEntry, 'Codex marketplace entry missing')
-assert(codexEntry.source?.path === './plugins/reflex-agent-toolkit', 'Codex marketplace source path mismatch')
+assert(codexEntry.source?.path === './plugins/uklad-agent-toolkit', 'Codex marketplace source path mismatch')
 assert(fs.existsSync(path.join(root, codexEntry.source.path)), 'Codex marketplace source path does not exist')
 
 const claudeMarketplace = readJson('.claude-plugin/marketplace.json')
-const claudeEntry = claudeMarketplace.plugins?.find((plugin) => plugin.name === 'reflex-agent-toolkit')
+const claudeEntry = claudeMarketplace.plugins?.find((plugin) => plugin.name === 'uklad-agent-toolkit')
 assert(claudeEntry, 'Claude marketplace entry missing')
-assert(claudeEntry.source === './plugins/reflex-agent-toolkit', 'Claude marketplace source path mismatch')
+assert(claudeEntry.source === './plugins/uklad-agent-toolkit', 'Claude marketplace source path mismatch')
 assert(fs.existsSync(path.join(root, claudeEntry.source)), 'Claude marketplace source path does not exist')
 
-const skillRelativePath = 'plugins/reflex-agent-toolkit/skills/reflex/SKILL.md'
+const skillRelativePath = 'plugins/uklad-agent-toolkit/skills/uklad/SKILL.md'
 const skill = readText(skillRelativePath)
 const frontmatter = skill.match(/^---\n([\s\S]*?)\n---\n/)
 assert(frontmatter, 'Skill frontmatter is missing or malformed')
@@ -99,14 +99,14 @@ assert(
   JSON.stringify(frontmatterKeys) === JSON.stringify(['name', 'description']),
   'Skill frontmatter must contain only name and description'
 )
-assert(/^name: reflex$/m.test(frontmatter[1]), 'Skill frontmatter name must be reflex')
+assert(/^name: uklad$/m.test(frontmatter[1]), 'Skill frontmatter name must be uklad')
 assert(/^description: .+/m.test(frontmatter[1]), 'Skill frontmatter description is missing')
 assert(lineCount(skill) <= 80, 'SKILL.md must remain a compact router (80 lines or fewer)')
 
 const referenceTexts = new Map(
   referenceFiles.map((file) => [
     file,
-    readText(`plugins/reflex-agent-toolkit/skills/reflex/references/${file}`)
+    readText(`plugins/uklad-agent-toolkit/skills/uklad/references/${file}`)
   ])
 )
 for (const [file, contents] of referenceTexts) {
@@ -124,7 +124,7 @@ assert(
 const skillDocuments = [
   [skillRelativePath, skill],
   ...referenceFiles.map((file) => [
-    `plugins/reflex-agent-toolkit/skills/reflex/references/${file}`,
+    `plugins/uklad-agent-toolkit/skills/uklad/references/${file}`,
     referenceTexts.get(file)
   ])
 ]
@@ -191,7 +191,7 @@ for (const requiredTerm of [
 const setup = referenceTexts.get('setup.md')
 for (const requiredTerm of [
   'devtools:mcp',
-  'createReflexInspector',
+  'createUkladInspector',
   '--allow-origin',
   '--allow-dispatch',
   'inspection-only',
@@ -214,13 +214,13 @@ for (const requiredTerm of [
 }
 assert(skill.includes('Use only tools and capabilities advertised'), 'Skill must make DevTools use capability-driven')
 
-const skillInterface = readText('plugins/reflex-agent-toolkit/skills/reflex/agents/openai.yaml')
+const skillInterface = readText('plugins/uklad-agent-toolkit/skills/uklad/agents/openai.yaml')
 assert(/^interface:/m.test(skillInterface), 'Skill OpenAI interface metadata is missing')
-assert(/^  display_name: "Reflex"$/m.test(skillInterface), 'Skill display name must be Reflex')
+assert(/^  display_name: "Uklad"$/m.test(skillInterface), 'Skill display name must be Uklad')
 assert(
-  /^  short_description: "Build canonical Reflex apps with focused context\."$/m.test(skillInterface),
+  /^  short_description: "Build canonical Uklad apps with focused context\."$/m.test(skillInterface),
   'Skill short description is stale'
 )
-assert(/^  default_prompt: "Use \$reflex /m.test(skillInterface), 'Skill default prompt must invoke $reflex')
+assert(/^  default_prompt: "Use \$uklad /m.test(skillInterface), 'Skill default prompt must invoke $uklad')
 
-console.log('reflex-agent-toolkit validation ok')
+console.log('uklad-agent-toolkit validation ok')

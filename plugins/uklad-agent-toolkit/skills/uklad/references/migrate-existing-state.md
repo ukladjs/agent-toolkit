@@ -1,4 +1,4 @@
-# Migrate Existing State To Reflex
+# Migrate Existing State To Uklad
 
 Read [architecture.md](architecture.md) first. Migrate one complete vertical workflow at a time rather than translating a store file mechanically.
 
@@ -21,10 +21,10 @@ Read [architecture.md](architecture.md) first. Migrate one complete vertical wor
 
 ## Incremental Cutover
 
-1. Introduce `src/app/reflex/catalog.ts`, `contracts.ts`, runtime composition, and bindings if missing.
+1. Introduce `src/app/uklad/catalog.ts`, `contracts.ts`, runtime composition, and bindings if missing.
 2. Split a broad nested feature store into roots only where values change or are observed independently.
 3. Add one feature module, its initial roots, events, subscriptions, and required platform adapters.
-4. Switch one UI/ingress path and its tests to Reflex.
+4. Switch one UI/ingress path and its tests to Uklad.
 5. Verify behavior, ownership, and derived results before moving the next workflow.
 6. Remove the old branch only after no reader or writer remains.
 

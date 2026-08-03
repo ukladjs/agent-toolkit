@@ -1,22 +1,22 @@
 {
-  "name": "reflex-agent-toolkit",
+  "name": "ukladjs",
   "owner": {
     "name": "flexsurfer"
   },
-  "description": "Reflex plugins for context-efficient agentic development.",
+  "description": "Uklad plugins for context-efficient agentic development.",
   "plugins": [
     {
-      "name": "reflex-agent-toolkit",
-      "source": "./plugins/reflex-agent-toolkit",
-      "displayName": "Reflex Agent Toolkit",
-      "description": "Adds canonical Reflex architecture skills and focused DevTools MCP workflows for building, migrating, debugging, and verification.",
+      "name": "uklad-agent-toolkit",
+      "source": "./plugins/uklad-agent-toolkit",
+      "displayName": "Uklad Agent Toolkit",
+      "description": "Adds canonical Uklad architecture skills and focused DevTools MCP workflows for building, migrating, debugging, and verification.",
       "version": "0.1.0",
       "author": {
         "name": "flexsurfer"
       },
       "category": "developer-tools",
       "tags": [
-        "reflex",
+        "uklad",
         "react",
         "state-management",
         "mcp",

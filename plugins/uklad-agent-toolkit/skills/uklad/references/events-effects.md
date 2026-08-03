@@ -1,4 +1,4 @@
-# Reflex Events, Effects, And Coeffects
+# Uklad Events, Effects, And Coeffects
 
 Read this only when changing an event turn, an environmental boundary, external ingress, or interceptors.
 
@@ -10,7 +10,7 @@ Read this only when changing an event turn, an environmental boundary, external 
 - Never schedule host work such as `setTimeout` from an event. Model it as an effect.
 - Keep runtime-wide interceptors in runtime composition. They run in declared order before event-specific interceptors and unwind in reverse; feature modules must not register them.
 - Express event intent with small scalar parameters or IDs where possible. Treat parameters and injected coeffect values as read-only.
-- Never pass a live Immer draft to an effect. The runtime snapshots common top-level payload shapes; use `current()` from `@flexsurfer/reflex/vanilla` for drafts nested inside collections or deep wrappers.
+- Never pass a live Immer draft to an effect. The runtime snapshots common top-level payload shapes; use `current()` from `@ukladjs/core/vanilla` for drafts nested inside collections or deep wrappers.
 - Do not read storage, clock, random, network, browser, or native APIs from an event or subscription.
 - Remember that effects run after state commits and cannot roll it back. State correctness must not depend on effect success.
 
@@ -19,7 +19,7 @@ Read this only when changing an event turn, an environmental boundary, external 
 Declare the ID and type first, then register against the complete application contract:
 
 ```ts
-export const registerTodosEvents: ReflexModule<ReflexRegistrar<AppContracts>> = (registrar) => {
+export const registerTodosEvents: UkladModule<UkladRegistrar<AppContracts>> = (registrar) => {
   registrar.regEvent(
     appIds.events.todosAdd,
     ({ draftState, coeffects: { now } }, title) => {
@@ -42,13 +42,13 @@ Keep `event` and `draftState` reserved; do not use either as a coeffect ID or na
 - Make any platform no-op deliberate and documented. Do not treat a missing required handler as success.
 
 ```ts
-export const registerWebEffects: ReflexModule<ReflexRegistrar<AppContracts>> = (registrar) => {
+export const registerWebEffects: UkladModule<UkladRegistrar<AppContracts>> = (registrar) => {
   registrar.regEffect(appIds.effects.todosPersist, ({ todos }) => {
     window.localStorage.setItem('todos', JSON.stringify(todos));
   });
 };
 
-export const registerWebCoeffects: ReflexModule<ReflexRegistrar<AppContracts>> = (registrar) => {
+export const registerWebCoeffects: UkladModule<UkladRegistrar<AppContracts>> = (registrar) => {
   registrar.regCoeffect(appIds.coeffects.systemNow, () => Date.now());
 };
 ```

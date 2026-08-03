@@ -1,10 +1,10 @@
-# Verify Reflex Changes
+# Verify Uklad Changes
 
 Run the smallest relevant formatter, typecheck, and focused test first. Use DevTools only when live state, graph, or event-cascade evidence adds value.
 
 ## Focused Tests
 
-Create an isolated runtime or use the application's runtime factory. Use `createReflexTestHarness` from `@flexsurfer/reflex/testing` for explicit test-only access:
+Create an isolated runtime or use the application's runtime factory. Use `createUkladTestHarness` from `@ukladjs/core/testing` for explicit test-only access:
 
 - `dispatchSync` for a deterministic event transition;
 - `getState` for a narrow assertion after that transition;

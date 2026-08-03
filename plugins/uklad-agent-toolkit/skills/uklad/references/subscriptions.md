@@ -1,4 +1,4 @@
-# Reflex Subscriptions And Views
+# Uklad Subscriptions And Views
 
 Read this only when changing reactive roots, computed data, subscription queries, equality, or view wiring.
 
@@ -43,7 +43,7 @@ registrar.regSub(
 
 ## Equality Policy
 
-- Choose the runtime default `equalityCheck` in `createReflexRuntime`; the framework default is deep equality.
+- Choose the runtime default `equalityCheck` in `createUkladRuntime`; the framework default is deep equality.
 - Let a computed subscription inherit that default or supply a pure, deterministic override.
 - Use `Object.is` for meaningful reference identity, `shallowEqual` for fresh shallow collections whose members preserve identity, or a small documented domain comparator.
 - Use `equalityCheck: () => false` at runtime composition only when the application deliberately wants every computed result treated as changed.

@@ -1,16 +1,16 @@
 {
-  "name": "reflex-agent-toolkit",
+  "name": "uklad-agent-toolkit",
   "version": "0.1.0",
-  "description": "Canonical Reflex architecture skills and focused DevTools MCP workflows for Codex.",
+  "description": "Canonical Uklad architecture skills and focused DevTools MCP workflows for Codex.",
   "author": {
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"
   },
-  "homepage": "https://github.com/flexsurfer/reflex-agent-toolkit",
-  "repository": "https://github.com/flexsurfer/reflex-agent-toolkit",
+  "homepage": "https://github.com/ukladjs/agent-toolkit",
+  "repository": "https://github.com/ukladjs/agent-toolkit",
   "license": "MIT",
   "keywords": [
-    "reflex",
+    "uklad",
     "react",
     "state-management",
     "mcp",
@@ -19,20 +19,20 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Reflex Agent Toolkit",
-    "shortDescription": "Build canonical Reflex apps with focused-context workflows.",
-    "longDescription": "Adds progressive Reflex architecture guidance and DevTools MCP setup so Codex can navigate the catalog and AppContracts, inspect scoped runtime evidence, and avoid broad source reads.",
+    "displayName": "Uklad Agent Toolkit",
+    "shortDescription": "Build canonical Uklad apps with focused-context workflows.",
+    "longDescription": "Adds progressive Uklad architecture guidance and DevTools MCP setup so Codex can navigate the catalog and AppContracts, inspect scoped runtime evidence, and avoid broad source reads.",
     "developerName": "flexsurfer",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",
       "Write"
     ],
-    "websiteURL": "https://github.com/flexsurfer/reflex-agent-toolkit",
+    "websiteURL": "https://github.com/ukladjs/agent-toolkit",
     "defaultPrompt": [
-      "Create a React/Vite site using Reflex (@flexsurfer/reflex).",
-      "Migrate this app's state management to Reflex (@flexsurfer/reflex).",
-      "Debug this Reflex event flow."
+      "Create a React/Vite site using Uklad (@ukladjs/core).",
+      "Migrate this app's state management to Uklad (@ukladjs/core).",
+      "Debug this Uklad event flow."
     ]
   }
 }

@@ -1,4 +1,4 @@
-# Create A Canonical Reflex Project
+# Create A Canonical Uklad Project
 
 Read [architecture.md](architecture.md) first. Use this sequence for a new app or when introducing the canonical boundary to an existing app.
 
@@ -9,14 +9,14 @@ Read [architecture.md](architecture.md) first. Use this sequence for a new app o
 3. Install the runtime with the detected package manager:
 
 ```bash
-npm install @flexsurfer/reflex
+npm install @ukladjs/core
 ```
 
-Install `@flexsurfer/reflex-devtools` as a development dependency only when live inspection is needed; then read [setup.md](setup.md).
+Install `@ukladjs/devtools` as a development dependency only when live inspection is needed; then read [setup.md](setup.md).
 
 ## Build In Discovery Order
 
-1. Create `src/app/reflex/catalog.ts` with direct-literal `stateKeys` and `appIds`.
+1. Create `src/app/uklad/catalog.ts` with direct-literal `stateKeys` and `appIds`.
 2. Create feature `state.ts` files with domain types and fresh initial values for independently reactive roots.
 3. Create one complete `AppContracts` in `contracts.ts`, keyed by catalog values.
 4. Compose fresh feature roots in `initial-state.ts`; do not share a mutable module-level initial object between runtimes.
@@ -26,21 +26,21 @@ Install `@flexsurfer/reflex-devtools` as a development dependency only when live
 8. Let each entry point create its runtime, install shared features plus exactly one target adapter set, and mount or execute it.
 
 ```ts
-// app/reflex/runtime.ts
+// app/uklad/runtime.ts
 export function createAppRuntime() {
-  return createReflexRuntime<AppContracts>({
+  return createUkladRuntime<AppContracts>({
     initialState: createAppState(),
     runtimeId: 'app',
     name: 'App',
   });
 }
 
-// app/reflex/bindings.ts
-export const { ReflexProvider, useRuntime, useSubscription } =
-  createReflexHooks<AppContracts>();
+// app/uklad/bindings.ts
+export const { UkladProvider, useRuntime, useSubscription } =
+  createUkladHooks<AppContracts>();
 ```
 
-Import runtime APIs from `@flexsurfer/reflex/vanilla` and React bindings from `@flexsurfer/reflex/react`.
+Import runtime APIs from `@ukladjs/core/vanilla` and React bindings from `@ukladjs/core/react`.
 
 ## Composition Rules
 

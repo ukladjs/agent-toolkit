@@ -1,4 +1,4 @@
 interface:
-  display_name: "Reflex"
-  short_description: "Build canonical Reflex apps with focused context."
-  default_prompt: "Use $reflex to build or update this app with the canonical Reflex architecture."
+  display_name: "Uklad"
+  short_description: "Build canonical Uklad apps with focused context."
+  default_prompt: "Use $uklad to build or update this app with the canonical Uklad architecture."
