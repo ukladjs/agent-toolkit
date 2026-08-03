@@ -1,39 +1,39 @@
 # Migrate Existing State To Reflex
 
-Use this when the user asks to move an existing app from React local state, Context, Redux, Zustand, MobX, reducer stores, or ad hoc service state to Reflex.
+Read [architecture.md](architecture.md) first. Migrate one complete vertical workflow at a time rather than translating a store file mechanically.
 
-## Audit Without Bloating Context
+## Focused Audit
 
-1. Detect the current state libraries from `package.json`.
-2. Search for state entry points and mutation APIs:
+1. Detect state libraries and entry points from `package.json` and exact imports.
+2. Search mutation and read APIs for one workflow:
    - React: `useState`, `useReducer`, `createContext`, `useContext`
-   - Redux: `createSlice`, `configureStore`, `useSelector`, `useDispatch`
-   - Zustand: `create(`, store hooks, setter callbacks
-   - MobX: `observable`, `makeAutoObservable`, actions, computed values
-3. Read one store/slice/context at a time. Do not read every state file up front.
-4. Make a migration map:
-   - state shape -> `AppDb`
-   - actions/reducers/setters -> Reflex events
-   - selectors/computed values -> Reflex subscriptions
-   - thunks/middleware/services -> effects/coeffects
-   - component store calls -> `dispatch` and `useSubscription`
+   - Redux: `createSlice`, `configureStore`, selectors, dispatch
+   - Zustand: store creators, hooks, setter callbacks
+   - MobX: observables, actions, and computed values
+3. Read one store, slice, context, or service at a time. Record its ownership, writes, derived reads, I/O, callers, and tests.
+4. Map the workflow to canonical surfaces:
+   - independently reactive values -> flat, feature-prefixed `stateKeys`
+   - action/reducer/setter -> `appIds.events`, `AppContracts.events`, feature event registration
+   - selector/computed value -> root or computed subscription
+   - thunk/middleware/service I/O -> platform effect plus result event
+   - synchronous environment read -> platform coeffect plus named event binding
+   - UI store access -> contract-bound `useSubscription`, `useRuntime`, and intent dispatch
 
-## Incremental Migration
+## Incremental Cutover
 
-1. Add Reflex dependencies and devtools tracing.
-2. Create the Reflex state boundary next to the old state layer.
-3. Migrate one vertical workflow first: one state branch, its updates, its derived reads, and one UI path.
-4. Verify behavior before migrating the next branch.
-5. Remove old store code only after the equivalent Reflex workflow is wired and tested.
+1. Introduce `src/app/reflex/catalog.ts`, `contracts.ts`, runtime composition, and bindings if missing.
+2. Split a broad nested feature store into roots only where values change or are observed independently.
+3. Add one feature module, its initial roots, events, subscriptions, and required platform adapters.
+4. Switch one UI/ingress path and its tests to Reflex.
+5. Verify behavior, ownership, and derived results before moving the next workflow.
+6. Remove the old branch only after no reader or writer remains.
 
-## Rules
+## Migration Guardrails
 
-- Preserve behavior first; improve structure after tests pass.
-- Keep event IDs and subscription IDs stable and centralized.
-- Do not mix two sources of truth for the same state branch after a workflow is migrated.
-- Keep side effects out of events. Translate async logic into request/success/failure events plus effects.
-- Move selector logic out of components as subscriptions.
-
-## Verification
-
-For each migrated workflow, run the smallest existing tests. If no tests exist, add focused tests around event transitions and subscriptions. When MCP is connected, verify the migrated event with `dispatch_event` and inspect patches/effects/errors.
+- Preserve behavior first, then improve derived data or root granularity with focused tests.
+- Never leave two writable sources of truth for one migrated value.
+- Never introduce feature-local ID files or partial contracts as a temporary target.
+- Normalize mutable external data before dispatch, then stop mutating or retaining the accepted payload.
+- Translate asynchronous work into request/result events and effects; do not make event or subscription functions async.
+- Move application-level filtering, sorting, grouping, and joins from components into subscriptions.
+- Keep a legacy compatibility surface only where an incremental boundary requires it, and make the next removal point explicit in code or task notes.

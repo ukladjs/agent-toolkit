@@ -1,36 +1,37 @@
 ---
 name: reflex
-description: Build, migrate, debug, and verify React or React Native applications that use Reflex (Reflex.js, @flexsurfer/reflex) — the re-frame-style JavaScript/TypeScript state library, NOT the Python Reflex framework (reflex.dev) and NOT react-reflex or reflexjs. Use for new Reflex apps, migration from React local state, Context, Redux, Zustand, MobX, or reducer stores, Reflex events/subscriptions/effects/coeffects, typed payload maps, and devtools MCP verification with minimal context usage.
+description: Build, migrate, debug, test, and verify React, React Native, SSR, or headless applications that use Reflex (reflex.js.org, @flexsurfer/reflex), the re-frame-style JavaScript/TypeScript state library. Use for canonical Reflex application architecture, state roots, events, subscriptions, effects, coeffects, AppContracts, feature modules, platform adapters, migration from other state stores, and focused DevTools MCP inspection. Do not use for the Python Reflex framework (reflex.dev), react-reflex, or reflexjs.
 ---
 
-# Reflex Agent Workflow
+# Reflex
 
-Use this workflow for Reflex state-management work. Optimize for small reads, explicit state contracts, and live verification.
+Treat `@flexsurfer/reflex` as Reflex. Never substitute the Python Reflex framework, `react-reflex`, or `reflexjs`.
 
-Throughout this skill, Reflex means `@flexsurfer/reflex` (aka Reflex.js) — the JavaScript/TypeScript state library. It is NOT the Python Reflex framework (reflex.dev), NOT `react-reflex`, and NOT `reflexjs`; never install those packages for Reflex work.
+## Load Only The Needed Reference
 
-## Choose The Path
+- Read [architecture.md](references/architecture.md) before changing application-authored Reflex state, contracts, handlers, subscriptions, modules, or runtime composition.
+- Read [new-project.md](references/new-project.md) to create a project or introduce the canonical application boundary.
+- Read [events-effects.md](references/events-effects.md) only for events, effects, coeffects, interceptors, or external ingress.
+- Read [subscriptions.md](references/subscriptions.md) only for reactive roots, derived data, query parameters, equality, or view wiring.
+- Read [migrate-existing-state.md](references/migrate-existing-state.md) for migration from React state, Context, Redux, Zustand, MobX, reducers, or service-owned state.
+- Read [setup.md](references/setup.md) only when packages, bindings, DevTools, MCP, or a headless entry are missing.
+- Read [verification.md](references/verification.md) after the smallest relevant code/type check when focused tests or live runtime evidence are useful.
 
-- New app or site: follow the Core Workflow and read `references/new-project.md` plus `references/implementation.md`.
-- Feature, bug fix, or Reflex refactor: follow the Core Workflow and read `references/implementation.md`.
-- Existing-state migration: follow the Core Workflow and read `references/migrate-existing-state.md` plus `references/implementation.md`.
-- Setup or missing tooling: read `references/setup.md`.
-- After a code/type check, read `references/verification.md` only when DevTools/MCP can provide runtime evidence for the change.
+Do not load unrelated references. All detailed guidance is one link away from this file.
 
-## Core Workflow
+## Workflow
 
-1. Identify the app framework, package manager, test/typecheck commands, and current state-management files.
-2. Orient from the smallest static index: `APP_MAP.md` when present, then the relevant `*-ids.ts`, `db.ts`, and payload maps. Use exact-match `rg` for one registration or call site; do not browse full state files.
-3. If MCP tools exist, call `app_status` after a cold start or reload. Then use the advertised tools narrowly: typed `get_handlers`, path-scoped `get_app_state`, filtered `get_active_subs` for mounted subscriptions, `dispatch_event`, and filtered `get_traces`/one `get_trace`.
-4. If `app_status` reports no connected app, start the project-local `devtools:mcp` script with the detected package manager (for example, `npm run devtools:mcp`). Add that script when missing, keep it running, reload the app if needed, and retry `app_status`.
-5. If MCP is unavailable, continue from the static index and exact-match search; do not substitute broad source reads.
-6. Make the smallest change allowed by the selected path reference.
-7. Run the smallest relevant typecheck/test. Use MCP dispatch checks and mounted-subscription checks only when runtime evidence is needed.
+1. Detect the framework, execution targets, package manager, installed Reflex API, and local test/typecheck commands.
+2. Distinguish application authoring from work inside the `@flexsurfer/reflex` package; the canonical application rules do not govern framework internals.
+3. For a canonical app, discover in this order: `src/app/reflex/catalog.ts` -> `contracts.ts` -> the owning feature or selected `platform/<target>` module. For a legacy app, locate its smallest existing state index, then migrate the touched vertical slice deliberately.
+4. Search direct catalog literals or symbols with exact-match `rg`. Read the smallest relevant function or file section; do not scan every feature or broad store file.
+5. Read the routed reference, update every contract/catalog/registration surface it names, and preserve one runtime owner and one reactive graph per execution owner.
+6. Run the narrowest useful formatter, typecheck, and test. Use runtime inspection only for evidence static checks cannot provide.
 
-## Context Rules
+## Context And Runtime Discipline
 
-- Do not load full `llms.txt` unless the skill, references, and project indexes are insufficient.
-- Do not read entire `events.ts`, `subs.ts`, or store files when an ID/index/exact search can isolate the target.
-- Avoid full app-db dumps. Prefer shape, path, trace row, handler ID, or subscription ID.
-- After every state-changing MCP call, use the returned patches/effects/errors before requesting more context.
-- Treat a changed `sessionEpoch` from `app_status` as a restart: earlier trace IDs and seeded state are stale.
+- Do not load `llms.txt` or broad state dumps while the catalog, contract, exact search, or scoped runtime tools can answer the question.
+- Treat initial/hydrated state, accepted event values, snapshots, and subscription results as runtime-owned; never mutate them outside an event handler's `draftState`.
+- Call `app_status` first after a cold start or reload and pass a selected `runtimeId` when more than one runtime is connected.
+- Use only tools and capabilities advertised by the connected DevTools server. Inspection is read-only by default; never work around a denied mutation capability.
+- Treat a changed `sessionEpoch` as a new DevTools session and discard its old trace IDs.

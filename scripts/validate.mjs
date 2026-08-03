@@ -4,7 +4,17 @@ import process from 'node:process'
 
 const root = process.cwd()
 const pluginRoot = path.join(root, 'plugins', 'reflex-agent-toolkit')
+const skillRoot = path.join(pluginRoot, 'skills', 'reflex')
 const mcpBridgePackage = '--package=@flexsurfer/reflex-devtools-mcp@0.1.12'
+const referenceFiles = [
+  'architecture.md',
+  'events-effects.md',
+  'migrate-existing-state.md',
+  'new-project.md',
+  'setup.md',
+  'subscriptions.md',
+  'verification.md'
+]
 const requiredFiles = [
   '.agents/plugins/marketplace.json',
   '.claude-plugin/marketplace.json',
@@ -13,16 +23,15 @@ const requiredFiles = [
   'plugins/reflex-agent-toolkit/.mcp.json',
   'plugins/reflex-agent-toolkit/skills/reflex/SKILL.md',
   'plugins/reflex-agent-toolkit/skills/reflex/agents/openai.yaml',
-  'plugins/reflex-agent-toolkit/skills/reflex/references/implementation.md',
-  'plugins/reflex-agent-toolkit/skills/reflex/references/new-project.md',
-  'plugins/reflex-agent-toolkit/skills/reflex/references/migrate-existing-state.md',
-  'plugins/reflex-agent-toolkit/skills/reflex/references/setup.md',
-  'plugins/reflex-agent-toolkit/skills/reflex/references/verification.md'
+  ...referenceFiles.map((file) => `plugins/reflex-agent-toolkit/skills/reflex/references/${file}`)
 ]
 
 function readJson(relativePath) {
-  const absolutePath = path.join(root, relativePath)
-  return JSON.parse(fs.readFileSync(absolutePath, 'utf8'))
+  return JSON.parse(readText(relativePath))
+}
+
+function readText(relativePath) {
+  return fs.readFileSync(path.join(root, relativePath), 'utf8')
 }
 
 function assert(condition, message) {
@@ -31,9 +40,22 @@ function assert(condition, message) {
   }
 }
 
+function lineCount(text) {
+  return text.split('\n').length
+}
+
 for (const relativePath of requiredFiles) {
   assert(fs.existsSync(path.join(root, relativePath)), `Missing ${relativePath}`)
 }
+
+const discoveredReferenceFiles = fs
+  .readdirSync(path.join(skillRoot, 'references'))
+  .filter((file) => file.endsWith('.md'))
+  .sort()
+assert(
+  JSON.stringify(discoveredReferenceFiles) === JSON.stringify([...referenceFiles].sort()),
+  'Skill references must contain only the routed progressive-disclosure files'
+)
 
 const codexManifest = readJson('plugins/reflex-agent-toolkit/.codex-plugin/plugin.json')
 assert(codexManifest.name === 'reflex-agent-toolkit', 'Codex manifest name mismatch')
@@ -52,7 +74,7 @@ const mcpServer = mcpConfig.mcpServers?.['reflex-devtools']
 assert(mcpServer?.command === 'npx', 'MCP server must start with npx')
 assert(
   Array.isArray(mcpServer.args) && mcpServer.args.includes(mcpBridgePackage),
-  `MCP server args must pin ${mcpBridgePackage}`
+  `MCP server args must pin published ${mcpBridgePackage}`
 )
 assert(mcpServer.args.includes('reflex-devtools-mcp'), 'MCP server args must run the Reflex DevTools MCP binary')
 
@@ -68,20 +90,137 @@ assert(claudeEntry, 'Claude marketplace entry missing')
 assert(claudeEntry.source === './plugins/reflex-agent-toolkit', 'Claude marketplace source path mismatch')
 assert(fs.existsSync(path.join(root, claudeEntry.source)), 'Claude marketplace source path does not exist')
 
-const skill = fs.readFileSync(path.join(pluginRoot, 'skills/reflex/SKILL.md'), 'utf8')
-const skillInterface = fs.readFileSync(path.join(pluginRoot, 'skills/reflex/agents/openai.yaml'), 'utf8')
-assert(skill.startsWith('---\n'), 'Skill frontmatter is missing')
-assert(/\n---\n/.test(skill.slice(4)), 'Skill frontmatter is not closed')
-assert(/^name: reflex$/m.test(skill), 'Skill frontmatter name must be reflex')
-assert(/^description: .+/m.test(skill), 'Skill frontmatter description is missing')
-assert(skill.includes('devtools:mcp'), 'Skill must tell agents how to start the project-local DevTools server')
-assert(skill.includes('app_status'), 'Skill must start live verification with app_status')
-assert(skill.includes('After a code/type check'), 'Skill must make MCP verification a conditional later stage')
-for (const unavailableTool of ['get_reflex_map', 'find_state_changes', 'eval_sub']) {
-  assert(!skill.includes(`\`${unavailableTool}\``), `Skill must not advertise unavailable MCP tool ${unavailableTool}`)
+const skillRelativePath = 'plugins/reflex-agent-toolkit/skills/reflex/SKILL.md'
+const skill = readText(skillRelativePath)
+const frontmatter = skill.match(/^---\n([\s\S]*?)\n---\n/)
+assert(frontmatter, 'Skill frontmatter is missing or malformed')
+const frontmatterKeys = [...frontmatter[1].matchAll(/^([a-z_]+):/gm)].map((match) => match[1])
+assert(
+  JSON.stringify(frontmatterKeys) === JSON.stringify(['name', 'description']),
+  'Skill frontmatter must contain only name and description'
+)
+assert(/^name: reflex$/m.test(frontmatter[1]), 'Skill frontmatter name must be reflex')
+assert(/^description: .+/m.test(frontmatter[1]), 'Skill frontmatter description is missing')
+assert(lineCount(skill) <= 80, 'SKILL.md must remain a compact router (80 lines or fewer)')
+
+const referenceTexts = new Map(
+  referenceFiles.map((file) => [
+    file,
+    readText(`plugins/reflex-agent-toolkit/skills/reflex/references/${file}`)
+  ])
+)
+for (const [file, contents] of referenceTexts) {
+  assert(lineCount(contents) <= 100, `${file} exceeds the 100-line progressive-disclosure budget`)
 }
+
+const skillReferenceLinks = [...skill.matchAll(/\]\(references\/([^#)]+\.md)(?:#[^)]+)?\)/g)].map(
+  (match) => match[1]
+)
+assert(
+  JSON.stringify(skillReferenceLinks.sort()) === JSON.stringify([...referenceFiles].sort()),
+  'SKILL.md must link each reference exactly once'
+)
+
+const skillDocuments = [
+  [skillRelativePath, skill],
+  ...referenceFiles.map((file) => [
+    `plugins/reflex-agent-toolkit/skills/reflex/references/${file}`,
+    referenceTexts.get(file)
+  ])
+]
+for (const [relativePath, contents] of skillDocuments) {
+  for (const match of contents.matchAll(/\]\(([^)]+\.md)(?:#[^)]+)?\)/g)) {
+    if (/^https?:\/\//.test(match[1])) continue
+    const target = path.resolve(path.dirname(path.join(root, relativePath)), match[1])
+    assert(fs.existsSync(target), `Broken Markdown link in ${relativePath}: ${match[1]}`)
+  }
+}
+
+const allSkillText = skillDocuments.map(([, contents]) => contents).join('\n')
+for (const legacyPattern of [
+  'src/state/',
+  'event-ids.ts',
+  'effect-ids.ts',
+  'sub-ids.ts',
+  'payload-maps',
+  'AppDb',
+  'draftDb',
+  'enableTracing'
+]) {
+  assert(!allSkillText.includes(legacyPattern), `Skill must not teach legacy pattern ${legacyPattern}`)
+}
+
+const architecture = referenceTexts.get('architecture.md')
+for (const requiredTerm of [
+  'catalog.ts -> contracts.ts',
+  'stateKeys',
+  'appIds',
+  'AppContracts',
+  'regRootSub',
+  'one reactive graph',
+  'Flat Reactive Roots',
+  'Runtime-Owned Data'
+]) {
+  assert(architecture.includes(requiredTerm), `Architecture reference is missing ${requiredTerm}`)
+}
+
+const events = referenceTexts.get('events-effects.md')
+for (const requiredTerm of [
+  'Never call `dispatch`',
+  'promise or thenable',
+  'platform/<target>',
+  'regEffect',
+  'regCoeffect',
+  'current()',
+  'External Ingress'
+]) {
+  assert(events.includes(requiredTerm), `Events/effects reference is missing ${requiredTerm}`)
+}
+
+const subscriptions = referenceTexts.get('subscriptions.md')
+for (const requiredTerm of [
+  'fixed-length parameter tuple',
+  'finite `number`',
+  'equalityCheck',
+  'shallowEqual',
+  'view-ready'
+]) {
+  assert(subscriptions.includes(requiredTerm), `Subscriptions reference is missing ${requiredTerm}`)
+}
+
+const setup = referenceTexts.get('setup.md')
+for (const requiredTerm of [
+  'devtools:mcp',
+  'createReflexInspector',
+  '--allow-origin',
+  '--allow-dispatch',
+  'inspection-only',
+  'Node.js 22'
+]) {
+  assert(setup.includes(requiredTerm), `Setup reference is missing ${requiredTerm}`)
+}
+
+const verification = referenceTexts.get('verification.md')
+for (const requiredTerm of [
+  'app_status',
+  'get_state',
+  'eval_sub',
+  'dispatch_and_wait',
+  'dispatch_event',
+  'CAPABILITY_DENIED',
+  'sessionEpoch'
+]) {
+  assert(verification.includes(requiredTerm), `Verification reference is missing ${requiredTerm}`)
+}
+assert(skill.includes('Use only tools and capabilities advertised'), 'Skill must make DevTools use capability-driven')
+
+const skillInterface = readText('plugins/reflex-agent-toolkit/skills/reflex/agents/openai.yaml')
 assert(/^interface:/m.test(skillInterface), 'Skill OpenAI interface metadata is missing')
 assert(/^  display_name: "Reflex"$/m.test(skillInterface), 'Skill display name must be Reflex')
+assert(
+  /^  short_description: "Build canonical Reflex apps with focused context\."$/m.test(skillInterface),
+  'Skill short description is stale'
+)
 assert(/^  default_prompt: "Use \$reflex /m.test(skillInterface), 'Skill default prompt must invoke $reflex')
 
 console.log('reflex-agent-toolkit validation ok')

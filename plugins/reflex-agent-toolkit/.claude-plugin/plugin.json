@@ -2,7 +2,7 @@
   "name": "reflex-agent-toolkit",
   "displayName": "Reflex Agent Toolkit",
   "version": "0.1.0",
-  "description": "Context-efficient Reflex workflows, skills, and devtools MCP integration for Claude Code.",
+  "description": "Canonical Reflex architecture skills and focused DevTools MCP workflows for Claude Code.",
   "author": {
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"

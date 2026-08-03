@@ -1,7 +1,7 @@
 {
   "name": "reflex-agent-toolkit",
   "version": "0.1.0",
-  "description": "Context-efficient Reflex workflows, skills, and devtools MCP integration for Codex.",
+  "description": "Canonical Reflex architecture skills and focused DevTools MCP workflows for Codex.",
   "author": {
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"
@@ -20,8 +20,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Reflex Agent Toolkit",
-    "shortDescription": "Build and migrate apps to Reflex with low-context agent workflows.",
-    "longDescription": "Adds Reflex skills and devtools MCP setup so Codex can inspect handlers, scoped app state, traces, and dispatch results instead of reading broad source files.",
+    "shortDescription": "Build canonical Reflex apps with focused-context workflows.",
+    "longDescription": "Adds progressive Reflex architecture guidance and DevTools MCP setup so Codex can navigate the catalog and AppContracts, inspect scoped runtime evidence, and avoid broad source reads.",
     "developerName": "flexsurfer",
     "category": "Developer Tools",
     "capabilities": [

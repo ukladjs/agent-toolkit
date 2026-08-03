@@ -9,7 +9,7 @@
       "name": "reflex-agent-toolkit",
       "source": "./plugins/reflex-agent-toolkit",
       "displayName": "Reflex Agent Toolkit",
-      "description": "Adds Reflex skills and devtools MCP integration for building, migrating, debugging, and verifying Reflex apps.",
+      "description": "Adds canonical Reflex architecture skills and focused DevTools MCP workflows for building, migrating, debugging, and verification.",
       "version": "0.1.0",
       "author": {
         "name": "flexsurfer"
