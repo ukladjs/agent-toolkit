@@ -1,6 +1,11 @@
 # Uklad Agent Toolkit
 
-Standalone marketplace repository for the Uklad agent plugin. It contains the distributable skill and MCP configuration; the Uklad runtime library remains in its own repository.
+Standalone marketplace repository for the Uklad agent plugin. It contains the distributable skill and MCP configuration; the Uklad runtime library lives in [ukladjs/uklad](https://github.com/ukladjs/uklad).
+
+> **Status:** no `@ukladjs` package is published to npm yet. The plugin's MCP
+> bridge (`npx @ukladjs/devtools-mcp`) and the skill's `npm install @ukladjs/core`
+> steps will not resolve until the first release. Uklad is a rebrand of Reflex;
+> the previously published `@flexsurfer/reflex*` packages are unaffected.
 
 ## What It Contains
 
