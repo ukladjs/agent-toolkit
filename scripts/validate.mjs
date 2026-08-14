@@ -5,12 +5,14 @@ import process from 'node:process'
 const root = process.cwd()
 const pluginRoot = path.join(root, 'plugins', 'uklad-agent-toolkit')
 const skillRoot = path.join(pluginRoot, 'skills', 'uklad')
-const mcpBridgePackage = '--package=@ukladjs/devtools-mcp@0.1.13'
+const versions = readJson('versions.json')
+const mcpBridgePackage = `--package=@ukladjs/devtools-mcp@${versions.packages['@ukladjs/devtools-mcp']}`
 const referenceFiles = [
   'architecture.md',
   'events-effects.md',
   'migrate-existing-state.md',
   'new-project.md',
+  'server-state.md',
   'setup.md',
   'subscriptions.md',
   'verification.md'
@@ -18,6 +20,7 @@ const referenceFiles = [
 const requiredFiles = [
   '.agents/plugins/marketplace.json',
   '.claude-plugin/marketplace.json',
+  'versions.json',
   'plugins/uklad-agent-toolkit/.codex-plugin/plugin.json',
   'plugins/uklad-agent-toolkit/.claude-plugin/plugin.json',
   'plugins/uklad-agent-toolkit/.mcp.json',
@@ -62,12 +65,17 @@ assert(codexManifest.name === 'uklad-agent-toolkit', 'Codex manifest name mismat
 assert(codexManifest.skills === './skills/', 'Codex manifest must expose ./skills/')
 assert(codexManifest.mcpServers === './.mcp.json', 'Codex manifest must point at ./.mcp.json')
 assert(codexManifest.repository === 'https://github.com/ukladjs/agent-toolkit', 'Codex manifest repository mismatch')
+assert(codexManifest.version === versions.plugin, 'Codex manifest version mismatch')
 
 const claudeManifest = readJson('plugins/uklad-agent-toolkit/.claude-plugin/plugin.json')
 assert(claudeManifest.name === 'uklad-agent-toolkit', 'Claude manifest name mismatch')
 assert(claudeManifest.skills === './skills/', 'Claude manifest must expose ./skills/')
 assert(claudeManifest.mcpServers === './.mcp.json', 'Claude manifest must point at ./.mcp.json')
 assert(claudeManifest.repository === 'https://github.com/ukladjs/agent-toolkit', 'Claude manifest repository mismatch')
+assert(claudeManifest.version === versions.plugin, 'Claude manifest version mismatch')
+
+const rootPackage = readJson('package.json')
+assert(rootPackage.version === versions.plugin, 'Root package version mismatch')
 
 const mcpConfig = readJson('plugins/uklad-agent-toolkit/.mcp.json')
 const mcpServer = mcpConfig.mcpServers?.['uklad-devtools']
@@ -89,6 +97,7 @@ const claudeEntry = claudeMarketplace.plugins?.find((plugin) => plugin.name === 
 assert(claudeEntry, 'Claude marketplace entry missing')
 assert(claudeEntry.source === './plugins/uklad-agent-toolkit', 'Claude marketplace source path mismatch')
 assert(fs.existsSync(path.join(root, claudeEntry.source)), 'Claude marketplace source path does not exist')
+assert(claudeEntry.version === versions.plugin, 'Claude marketplace version mismatch')
 
 const skillRelativePath = 'plugins/uklad-agent-toolkit/skills/uklad/SKILL.md'
 const skill = readText(skillRelativePath)
@@ -188,10 +197,29 @@ for (const requiredTerm of [
   assert(subscriptions.includes(requiredTerm), `Subscriptions reference is missing ${requiredTerm}`)
 }
 
+const serverState = referenceTexts.get('server-state.md')
+for (const requiredTerm of [
+  'npm install @ukladjs/tanstack-query @tanstack/query-core',
+  'attachQueryClient',
+  'regQuerySub',
+  'regSubExt',
+  'passive',
+  'QuerySnapshot',
+  'platform/<target>/queries.ts'
+]) {
+  assert(serverState.includes(requiredTerm), `Server-state reference is missing ${requiredTerm}`)
+}
+
 const setup = referenceTexts.get('setup.md')
 for (const requiredTerm of [
+  `@ukladjs/devtools-mcp@${versions.packages['@ukladjs/devtools-mcp']}`,
+  'npm install @ukladjs/core',
+  'npm install -D @ukladjs/devtools',
+  'npm install @ukladjs/persist',
+  'npm install @ukladjs/tanstack-query @tanstack/query-core',
   'devtools:mcp',
   'createUkladInspector',
+  "operations: { evidence: { stateChanges: 'patches' } }",
   '--allow-origin',
   '--allow-dispatch',
   'inspection-only',
@@ -213,6 +241,10 @@ for (const requiredTerm of [
   assert(verification.includes(requiredTerm), `Verification reference is missing ${requiredTerm}`)
 }
 assert(skill.includes('Use only tools and capabilities advertised'), 'Skill must make DevTools use capability-driven')
+assert(
+  referenceTexts.get('new-project.md').includes('npm install @ukladjs/core'),
+  'New-project setup must install the current core package'
+)
 
 const skillInterface = readText('plugins/uklad-agent-toolkit/skills/uklad/agents/openai.yaml')
 assert(/^interface:/m.test(skillInterface), 'Skill OpenAI interface metadata is missing')

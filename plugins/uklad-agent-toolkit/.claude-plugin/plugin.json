@@ -1,7 +1,7 @@
 {
   "name": "uklad-agent-toolkit",
   "displayName": "Uklad Agent Toolkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Canonical Uklad architecture skills and focused DevTools MCP workflows for Claude Code.",
   "author": {
     "name": "flexsurfer",

@@ -2,10 +2,14 @@
 
 Standalone marketplace repository for the Uklad agent plugin. It contains the distributable skill and MCP configuration; the Uklad runtime library lives in [ukladjs/uklad](https://github.com/ukladjs/uklad).
 
-> **Status:** no `@ukladjs` package is published to npm yet. The plugin's MCP
-> bridge (`npx @ukladjs/devtools-mcp`) and the skill's `npm install @ukladjs/core`
-> steps will not resolve until the first release. Uklad is a rebrand of Reflex;
-> the previously published `@flexsurfer/reflex*` packages are unaffected.
+> **Status:** prepared for the initial `@ukladjs` release. Until that release is
+> published, the npm commands below will not resolve. Uklad is a rebrand of
+> Reflex; the previously published `@flexsurfer/reflex*` packages are
+> unaffected.
+
+The plugin release is `0.2.0`. Its exact MCP bridge version is recorded in
+[`versions.json`](versions.json); application runtime packages are resolved by
+the application's package manager.
 
 ## What It Contains
 
@@ -15,6 +19,7 @@ Standalone marketplace repository for the Uklad agent plugin. It contains the di
 - `plugins/uklad-agent-toolkit/skills/uklad/SKILL.md`: compact, task-routing Uklad workflow.
 - `plugins/uklad-agent-toolkit/skills/uklad/agents/openai.yaml`: Codex skill UI metadata.
 - `plugins/uklad-agent-toolkit/skills/uklad/references/`: one-level, progressive-disclosure guidance for canonical architecture, events/effects, subscriptions, project creation, migration, setup, and verification.
+- `versions.json`: the plugin version and exact MCP bridge version enforced by validation.
 - `.agents/plugins/marketplace.json`: Codex local marketplace catalog.
 - `.claude-plugin/marketplace.json`: Claude Code local marketplace catalog.
 
@@ -82,7 +87,7 @@ Application discovery follows one bounded path:
 src/app/uklad/catalog.ts -> contracts.ts -> owning feature or selected platform
 ```
 
-The skill teaches one complete `AppContracts`, flat feature-prefixed reactive roots, a central `stateKeys`/`appIds` catalog, feature registration modules, and target-specific effect/coeffect adapters.
+The skill teaches one complete `AppContracts`, flat feature-prefixed reactive roots, a central `stateKeys`/`appIds` catalog, feature registration modules, target-specific adapters, and an isolated server-state reference loaded only for external query lifecycles.
 
 ## Runtime Requirement
 

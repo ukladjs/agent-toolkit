@@ -11,7 +11,14 @@ npm install @ukladjs/core
 npm install -D @ukladjs/devtools
 ```
 
-The plugin starts its version-pinned MCP bridge. Do not add the bridge package or a separate MCP client configuration to the application.
+Add only the integration the application actually uses. Let the application's package manager resolve the current compatible release:
+
+```bash
+npm install @ukladjs/persist
+npm install @ukladjs/tanstack-query @tanstack/query-core
+```
+
+The plugin starts `@ukladjs/devtools-mcp@0.2.0` independently of the application. Do not add the bridge package or a separate MCP client configuration to the project.
 
 ## Runtime Inspector
 
@@ -22,11 +29,13 @@ import { createUkladInspector } from '@ukladjs/core/devtools';
 import { enableDevtools } from '@ukladjs/devtools';
 
 if (import.meta.env.DEV) {
-  enableDevtools(createUkladInspector(appRuntime));
+  enableDevtools(createUkladInspector(appRuntime), {
+    operations: { evidence: { stateChanges: 'patches' } },
+  });
 }
 ```
 
-Adjust the environment guard for the build system. Keep DevTools out of production execution.
+Adjust the environment guard for the build system. Keep DevTools out of production execution. Operation snapshots let `dispatch_and_wait` settle a joined event cascade without depending on trace storage; bounded patches make its result directly verifiable.
 
 ## Project-Local Server
 
