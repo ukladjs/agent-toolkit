@@ -15,6 +15,7 @@ the application's package manager.
 
 - `plugins/uklad-agent-toolkit/.codex-plugin/plugin.json`: Codex plugin manifest.
 - `plugins/uklad-agent-toolkit/.claude-plugin/plugin.json`: Claude Code plugin manifest.
+- `plugins/uklad-agent-toolkit/assets/uklad-logo.png`: shared Uklad logo asset. Codex uses it through `interface.logo` and `interface.composerIcon`; Claude Code currently has no documented plugin-manifest icon field.
 - `plugins/uklad-agent-toolkit/.mcp.json`: shared Uklad DevTools MCP server config.
 - `plugins/uklad-agent-toolkit/skills/uklad/SKILL.md`: compact, task-routing Uklad workflow.
 - `plugins/uklad-agent-toolkit/skills/uklad/agents/openai.yaml`: Codex skill UI metadata.

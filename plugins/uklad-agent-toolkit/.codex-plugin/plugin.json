@@ -28,6 +28,9 @@
       "Interactive",
       "Write"
     ],
+    "brandColor": "#164A8E",
+    "composerIcon": "./assets/uklad-logo.png",
+    "logo": "./assets/uklad-logo.png",
     "websiteURL": "https://github.com/ukladjs/agent-toolkit",
     "defaultPrompt": [
       "Create a React/Vite site using Uklad (@ukladjs/core).",
