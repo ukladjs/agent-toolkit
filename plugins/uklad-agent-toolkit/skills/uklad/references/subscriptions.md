@@ -43,7 +43,7 @@ registrar.regSub(
 
 ## Equality Policy
 
-- Choose the runtime default `equalityCheck` in `createUkladRuntime`; the framework default is deep equality.
+- Choose the runtime default `equalityCheck` in `createUkladRuntime`; the framework default is safe shallow structural equality. Arrays, plain objects, `Map`, `Set`, and typed arrays compare immediate contents, while nested values retain identity semantics.
 - Let a computed subscription inherit that default or supply a pure, deterministic override.
 - Use `Object.is` for meaningful reference identity, `shallowEqual` for fresh shallow collections whose members preserve identity, or a small documented domain comparator.
 - Use `equalityCheck: () => false` at runtime composition only when the application deliberately wants every computed result treated as changed.
