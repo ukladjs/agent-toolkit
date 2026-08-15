@@ -2,12 +2,11 @@
 
 Standalone marketplace repository for the Uklad agent plugin. It contains the distributable skill and MCP configuration; the Uklad runtime library lives in [ukladjs/uklad](https://github.com/ukladjs/uklad).
 
-> **Status:** prepared for the initial `@ukladjs` release. Until that release is
-> published, the npm commands below will not resolve. Uklad is a rebrand of
-> Reflex; the previously published `@flexsurfer/reflex*` packages are
-> unaffected.
+> **Status:** Uklad packages are published under the `@ukladjs` scope. Uklad is
+> a rebrand of Reflex; the previously published `@flexsurfer/reflex*` packages
+> are unaffected.
 
-The plugin release is `0.2.0`. Its exact MCP bridge version is recorded in
+The plugin release is `0.2.1`. Its exact MCP bridge version is recorded in
 [`versions.json`](versions.json); application runtime packages are resolved by
 the application's package manager.
 
@@ -89,6 +88,16 @@ src/app/uklad/catalog.ts -> contracts.ts -> owning feature or selected platform
 ```
 
 The skill teaches one complete `AppContracts`, flat feature-prefixed reactive roots, a central `stateKeys`/`appIds` catalog, feature registration modules, target-specific adapters, and an isolated server-state reference loaded only for external query lifecycles.
+
+## Project Agent Router
+
+Projects using `@ukladjs/core@0.2.1` or newer can add the short, managed Uklad router to their package-level `AGENTS.md`:
+
+```bash
+npx --no-install uklad-agent init
+```
+
+The initializer preserves existing instructions and is safe to rerun. In a monorepo, run it from the consuming package or pass `--root packages/<app>`.
 
 ## Runtime Requirement
 

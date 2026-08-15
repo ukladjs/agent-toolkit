@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 — Project agent router
+
+- Teach the setup skill to run the project-local `uklad-agent init` command shipped by `@ukladjs/core@0.2.1` and preserve existing `AGENTS.md` guidance through managed markers.
+- Require npm's `--no-install` mode so projects on older core versions cannot accidentally fetch an unrelated registry package.
+
 ## 0.2.0 — Plugin release
 
 - Bump the Codex and Claude plugin release to 0.2.0.

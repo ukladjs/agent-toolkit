@@ -18,6 +18,18 @@ npm install @ukladjs/persist
 npm install @ukladjs/tanstack-query @tanstack/query-core
 ```
 
+## Project Agent Router
+
+After installing or upgrading to `@ukladjs/core@0.2.1` or newer, invoke its project-local initializer through the detected package manager. For npm:
+
+```bash
+npx --no-install uklad-agent init
+```
+
+Run it from the consuming package. In a monorepo, pass `--root packages/<app>` when the current directory is not that package. The command requires a direct `@ukladjs/core` dependency, preserves existing `AGENTS.md` instructions, and owns only the section between `<!-- uklad-agent:start -->` and `<!-- uklad-agent:end -->`; rerunning it updates that section idempotently.
+
+Never omit `--no-install` from the npm form. If the local binary is absent, inspect the installed core version instead of allowing npm to fetch an unrelated `uklad-agent` package. Upgrade core only when compatible with the requested work; otherwise leave project guidance unchanged and report that the router requires core 0.2.1 or newer.
+
 The plugin starts `@ukladjs/devtools-mcp@0.2.0` independently of the application. Do not add the bridge package or a separate MCP client configuration to the project.
 
 ## Runtime Inspector

@@ -1,5 +1,5 @@
 {
-  "plugin": "0.2.0",
+  "plugin": "0.2.1",
   "packages": {
     "@ukladjs/devtools-mcp": "0.2.0"
   }

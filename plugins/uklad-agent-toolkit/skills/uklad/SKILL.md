@@ -15,7 +15,7 @@ Treat `@ukladjs/core` as Uklad. Uklad was previously published as Reflex (`@flex
 - Read [subscriptions.md](references/subscriptions.md) only for reactive roots, derived data, query parameters, equality, or view wiring.
 - Read [server-state.md](references/server-state.md) only for TanStack Query, `regSubExt`, external subscription lifecycles, or remote-data ownership.
 - Read [migrate-existing-state.md](references/migrate-existing-state.md) for migration from React state, Context, Redux, Zustand, MobX, reducers, or service-owned state.
-- Read [setup.md](references/setup.md) only when packages, bindings, DevTools, MCP, or a headless entry are missing.
+- Read [setup.md](references/setup.md) only when packages, bindings, the project agent router, DevTools, MCP, or a headless entry are missing.
 - Read [verification.md](references/verification.md) after the smallest relevant code/type check when focused tests or live runtime evidence are useful.
 
 Do not load unrelated references. All detailed guidance is one link away from this file.
