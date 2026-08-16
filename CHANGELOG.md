@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 — Hand-written headless E2E
+
+- Add a focused, progressive-disclosure workflow for browserless application-semantic E2E tests using Core's `createUkladHeadlessScenario` API, mounted subscription views, standard dispatch, deterministic adapters, and explicit async settlement.
+- Update Codex and Claude marketplace metadata to advertise headless E2E guidance.
+
 ## 0.2.1 — Project agent router
 
 - Teach the setup skill to run the project-local `uklad-agent init` command shipped by `@ukladjs/core@0.2.1` and preserve existing `AGENTS.md` guidance through managed markers.

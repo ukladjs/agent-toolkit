@@ -1,7 +1,7 @@
 {
   "name": "uklad-agent-toolkit",
-  "version": "0.2.1",
-  "description": "Canonical Uklad architecture skills and focused DevTools MCP workflows for Codex.",
+  "version": "0.2.2",
+  "description": "Canonical Uklad architecture skills, headless E2E guidance, and focused DevTools MCP workflows for Codex.",
   "author": {
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"
@@ -20,8 +20,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Uklad Agent Toolkit",
-    "shortDescription": "Build canonical Uklad apps with focused-context workflows.",
-    "longDescription": "Adds progressive Uklad architecture guidance and DevTools MCP setup so Codex can navigate the catalog and AppContracts, inspect scoped runtime evidence, and avoid broad source reads.",
+    "shortDescription": "Build canonical Uklad apps and headless E2E tests.",
+    "longDescription": "Adds progressive Uklad architecture and headless E2E guidance plus DevTools MCP setup so Codex can navigate the catalog and AppContracts, inspect scoped runtime evidence, and avoid broad source reads.",
     "developerName": "flexsurfer",
     "category": "Developer Tools",
     "capabilities": [

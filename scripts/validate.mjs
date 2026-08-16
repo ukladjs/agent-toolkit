@@ -10,6 +10,7 @@ const mcpBridgePackage = `--package=@ukladjs/devtools-mcp@${versions.packages['@
 const referenceFiles = [
   'architecture.md',
   'events-effects.md',
+  'headless-e2e.md',
   'migrate-existing-state.md',
   'new-project.md',
   'server-state.md',
@@ -244,6 +245,16 @@ for (const requiredTerm of [
 ]) {
   assert(verification.includes(requiredTerm), `Verification reference is missing ${requiredTerm}`)
 }
+const headlessE2e = referenceTexts.get('headless-e2e.md')
+for (const requiredTerm of [
+  'createUkladHeadlessScenario',
+  'app.mountView',
+  '`app.dispatch`',
+  '`await app.settle()`',
+  'browser smoke'
+]) {
+  assert(headlessE2e.includes(requiredTerm), `Headless E2E reference is missing ${requiredTerm}`)
+}
 assert(skill.includes('Use only tools and capabilities advertised'), 'Skill must make DevTools use capability-driven')
 assert(
   referenceTexts.get('new-project.md').includes('npm install @ukladjs/core'),
@@ -254,7 +265,7 @@ const skillInterface = readText('plugins/uklad-agent-toolkit/skills/uklad/agents
 assert(/^interface:/m.test(skillInterface), 'Skill OpenAI interface metadata is missing')
 assert(/^  display_name: "Uklad"$/m.test(skillInterface), 'Skill display name must be Uklad')
 assert(
-  /^  short_description: "Build canonical Uklad apps with focused context\."$/m.test(skillInterface),
+  /^  short_description: "Build canonical Uklad apps and headless E2E tests\."$/m.test(skillInterface),
   'Skill short description is stale'
 )
 assert(/^  default_prompt: "Use \$uklad /m.test(skillInterface), 'Skill default prompt must invoke $uklad')

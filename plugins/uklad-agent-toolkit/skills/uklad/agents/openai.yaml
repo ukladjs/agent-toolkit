@@ -1,4 +1,4 @@
 interface:
   display_name: "Uklad"
-  short_description: "Build canonical Uklad apps with focused context."
-  default_prompt: "Use $uklad to build or update this app with the canonical Uklad architecture."
+  short_description: "Build canonical Uklad apps and headless E2E tests."
+  default_prompt: "Use $uklad to build, test, or update this app with canonical Uklad architecture."

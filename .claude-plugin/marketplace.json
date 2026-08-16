@@ -9,8 +9,8 @@
       "name": "uklad-agent-toolkit",
       "source": "./plugins/uklad-agent-toolkit",
       "displayName": "Uklad Agent Toolkit",
-      "description": "Adds canonical Uklad architecture skills and focused DevTools MCP workflows for building, migrating, debugging, and verification.",
-      "version": "0.2.1",
+      "description": "Adds canonical Uklad architecture skills, headless E2E guidance, and focused DevTools MCP workflows for building, migrating, debugging, and verification.",
+      "version": "0.2.2",
       "author": {
         "name": "flexsurfer"
       },

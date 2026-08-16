@@ -6,7 +6,7 @@ Standalone marketplace repository for the Uklad agent plugin. It contains the di
 > a rebrand of Reflex; the previously published `@flexsurfer/reflex*` packages
 > are unaffected.
 
-The plugin release is `0.2.1`. Its exact MCP bridge version is recorded in
+The plugin release is `0.2.2`. Its exact MCP bridge version is recorded in
 [`versions.json`](versions.json); application runtime packages are resolved by
 the application's package manager.
 
@@ -18,7 +18,7 @@ the application's package manager.
 - `plugins/uklad-agent-toolkit/.mcp.json`: shared Uklad DevTools MCP server config.
 - `plugins/uklad-agent-toolkit/skills/uklad/SKILL.md`: compact, task-routing Uklad workflow.
 - `plugins/uklad-agent-toolkit/skills/uklad/agents/openai.yaml`: Codex skill UI metadata.
-- `plugins/uklad-agent-toolkit/skills/uklad/references/`: one-level, progressive-disclosure guidance for canonical architecture, events/effects, subscriptions, project creation, migration, setup, and verification.
+- `plugins/uklad-agent-toolkit/skills/uklad/references/`: one-level, progressive-disclosure guidance for canonical architecture, events/effects, subscriptions, hand-written headless E2E, project creation, migration, setup, and verification.
 - `versions.json`: the plugin version and exact MCP bridge version enforced by validation.
 - `.agents/plugins/marketplace.json`: Codex local marketplace catalog.
 - `.claude-plugin/marketplace.json`: Claude Code local marketplace catalog.
@@ -79,6 +79,12 @@ Existing project:
 Migrate this app's state management to Uklad (@ukladjs/core).
 ```
 
+Headless E2E:
+
+```text
+Write a hand-written headless E2E test for this Uklad feature.
+```
+
 The plugin should steer the agent toward the Uklad skill, small source reads, catalog/contract indexes, and capability-driven runtime verification when DevTools is connected.
 
 Application discovery follows one bounded path:
@@ -87,7 +93,7 @@ Application discovery follows one bounded path:
 src/app/uklad/catalog.ts -> contracts.ts -> owning feature or selected platform
 ```
 
-The skill teaches one complete `AppContracts`, flat feature-prefixed reactive roots, a central `stateKeys`/`appIds` catalog, feature registration modules, target-specific adapters, and an isolated server-state reference loaded only for external query lifecycles.
+The skill teaches one complete `AppContracts`, flat feature-prefixed reactive roots, a central `stateKeys`/`appIds` catalog, feature registration modules, target-specific adapters, subscription-backed fake views for headless E2E, and an isolated server-state reference loaded only for external query lifecycles.
 
 ## Project Agent Router
 

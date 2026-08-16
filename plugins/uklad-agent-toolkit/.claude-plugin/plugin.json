@@ -1,8 +1,8 @@
 {
   "name": "uklad-agent-toolkit",
   "displayName": "Uklad Agent Toolkit",
-  "version": "0.2.1",
-  "description": "Canonical Uklad architecture skills and focused DevTools MCP workflows for Claude Code.",
+  "version": "0.2.2",
+  "description": "Canonical Uklad architecture skills, headless E2E guidance, and focused DevTools MCP workflows for Claude Code.",
   "author": {
     "name": "flexsurfer",
     "url": "https://github.com/flexsurfer"
